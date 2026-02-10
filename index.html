@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fff1f5, #ffe4ec);
+}
+
+.card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 24px;
+  padding: 20px 18px 26px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+/* GIF container */
+.sticker {
+  width: 120px;
+  margin: 0 auto 8px;
+  position: relative;
+  z-index: 5;
+}
+
+.sticker img {
+  width: 100%;
+}
+
+h2 {
+  margin: 8px 0 6px;
+  color: #e11d48;
+  font-size: 20px;
+}
+
+p {
+  margin: 6px 0 14px;
+  color: #444;
+  min-height: 22px;
+  transition: transform 0.2s ease;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+button {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#yesBtn {
+  background: #22c55e;
+  color: white;
+}
+
+#noBtn {
+  background: #f43f5e;
+  color: white;
+}
+
+/* popup */
+.popup {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 24px;
+}
+
+.popup h3 {
+  color: #e11d48;
+  font-size: 24px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <!-- GIF -->
+  <div class="sticker">
+    <img id="stickerImg" src="cute.gif">
+  </div>
+
+  <h2>Will you be my Valentine?</h2>
+  <p id="subText"></p>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div class="popup" id="popup">
+    <h3>I knew it</h3>
+  </div>
+
+</div>
+
+<script>
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const subText = document.getElementById('subText');
+const stickerImg = document.getElementById('stickerImg');
+const popup = document.getElementById('popup');
+
+let noClicks = 0;
+
+const noTexts = [
+  'Why?',
+  'Please',
+  'Think again',
+  'Still no?',
+  'Really?',
+  'Come on',
+  'Stop',
+  'Please no',
+  'Almost',
+  'You left me no choice'
+];
+
+noBtn.addEventListener('click', () => {
+  noClicks++;
+
+  // switch to sad gif
+  stickerImg.src = 'sad.gif';
+
+  // grow YES button
+  yesBtn.style.transform = `scale(${1 + noClicks * 0.12})`;
+
+  if (noClicks <= 9) {
+    noBtn.textContent = noTexts[noClicks - 1];
+  }
+
+  if (noClicks === 10) {
+    subText.textContent = 'You left me no choice';
+    subText.style.transform = 'translateY(-10px)';
+    noBtn.style.display = 'none';
+  }
+});
+
+yesBtn.addEventListener('click', () => {
+  stickerImg.src = 'yaaa.gif';
+  popup.style.display = 'flex';
+});
+</script>
+
+</body>
+</html>
