@@ -18,6 +18,7 @@ body {
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #fff1f5, #ffe4ec);
+  overflow: hidden;
 }
 
 .card {
@@ -29,9 +30,34 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   position: relative;
   overflow: hidden;
+  z-index: 2;
 }
 
-/* GIF container */
+/* hearts background */
+.hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  top: -20px;
+  font-size: 18px;
+  animation: fall linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh);
+    opacity: 0;
+  }
+}
+
+/* sticker */
 .sticker {
   width: 120px;
   margin: 0 auto 8px;
@@ -60,6 +86,8 @@ p {
   display: flex;
   justify-content: center;
   gap: 12px;
+  z-index: 5;
+  position: relative;
 }
 
 button {
@@ -91,9 +119,11 @@ button {
   justify-content: center;
   flex-direction: column;
   border-radius: 24px;
+  z-index: 10;
 }
 
 .popup h3 {
+  margin-top: 140px; /* 👈 pushed DOWN to avoid sticker */
   color: #e11d48;
   font-size: 24px;
 }
@@ -104,7 +134,10 @@ button {
 
 <div class="card">
 
-  <!-- GIF -->
+  <!-- falling hearts -->
+  <div class="hearts" id="hearts"></div>
+
+  <!-- sticker -->
   <div class="sticker">
     <img id="stickerImg" src="cute.gif">
   </div>
@@ -118,7 +151,7 @@ button {
   </div>
 
   <div class="popup" id="popup">
-    <h3>I knew it</h3>
+    <h3>I knew it ❤️</h3>
   </div>
 
 </div>
@@ -129,6 +162,7 @@ const noBtn = document.getElementById('noBtn');
 const subText = document.getElementById('subText');
 const stickerImg = document.getElementById('stickerImg');
 const popup = document.getElementById('popup');
+const hearts = document.getElementById('hearts');
 
 let noClicks = 0;
 
@@ -147,11 +181,8 @@ const noTexts = [
 
 noBtn.addEventListener('click', () => {
   noClicks++;
-
-  // switch to sad gif
   stickerImg.src = 'sad.gif';
 
-  // grow YES button
   yesBtn.style.transform = `scale(${1 + noClicks * 0.12})`;
 
   if (noClicks <= 9) {
@@ -168,8 +199,25 @@ noBtn.addEventListener('click', () => {
 yesBtn.addEventListener('click', () => {
   stickerImg.src = 'yaaa.gif';
   popup.style.display = 'flex';
+  startHearts();
 });
+
+/* falling hearts */
+function startHearts() {
+  for (let i = 0; i < 25; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '❤️';
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDuration = 3 + Math.random() * 3 + 's';
+    heart.style.fontSize = 14 + Math.random() * 14 + 'px';
+    hearts.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }
+}
 </script>
 
 </body>
 </html>
+
