@@ -144,7 +144,6 @@ const noTexts = [
   'Stop',
   'Please no',
   'Almost',
-  'You left me no choice'
 ];
 
 noBtn.addEventListener('click', () => {
@@ -157,7 +156,7 @@ noBtn.addEventListener('click', () => {
   }
 
   if (noClicks === 10) {
-    subText.textContent = 'You left me no choice';
+    subText.textContent = '.';
     noBtn.style.display = 'none';
   }
 });
